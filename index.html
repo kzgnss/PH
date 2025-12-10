@@ -1,484 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Deposit Activation · Predictor Program</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --bg: #020617;
-      --card: #020617;
-      --accent: #facc15;
-      --accent-soft: rgba(250, 204, 21, 0.12);
-      --accent-border: rgba(250, 204, 21, 0.6);
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --border: #1f2937;
-      --danger: #f97373;
-    }
+  <meta charset="UTF-8" />
+  <title>Access Setup · Program</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #facc15;
+      --accent-soft: rgba(250, 204, 21, 0.12);
+      --accent-border: rgba(250, 204, 21, 0.6);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #f97373;
+      --ok: #22c55e;
+    }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #000 100%);
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
 
-    .page {
-      width: 100%;
-      max-width: 560px;
-    }
+    .page { width: 100%; max-width: 560px; }
 
-    .card {
-      background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.12), transparent 55%),
-                  #020617;
-      border-radius: 24px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
-      padding: 22px 20px 20px;
-      position: relative;
-      overflow: hidden;
-    }
+    .card {
+      background:
+        radial-gradient(circle at top left, rgba(250, 204, 21, 0.12), transparent 55%),
+        #020617;
+      border-radius: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
+      padding: 22px 20px 20px;
+      position: relative;
+      overflow: hidden;
+    }
 
-    .card-inner {
-      position: relative;
-      z-index: 1;
-    }
+    .card-inner { position: relative; z-index: 1; }
 
-    .badge-geo {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-    }
+    .badge-geo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
 
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.2);
-    }
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--ok);
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.2);
+    }
 
-    h1 {
-      margin: 0 0 8px;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-    h1 span.icon {
-      font-size: 1.6rem;
-    }
+    h1 .icon { font-size: 1.6rem; }
 
-    .subtitle {
-      margin: 0 0 16px;
-      font-size: 0.93rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
+    .subtitle {
+      margin: 0 0 16px;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
 
-    .highlight {
-      color: var(--accent);
-      font-weight: 600;
-    }
+    .highlight { color: var(--accent); font-weight: 600; }
 
-    label {
-      display: block;
-      font-size: 0.85rem;
-      margin-bottom: 6px;
-      color: var(--text-main);
-    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
 
-    .input-row {
-      margin-bottom: 10px;
-    }
+    .input-row { margin-bottom: 10px; }
 
-    input[type="text"],
-    select {
-      width: 100%;
-      padding: 9px 11px;
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.95);
-      color: var(--text-main);
-      font-size: 0.9rem;
-    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-main);
+      font-size: 0.9rem;
+    }
 
-    input[type="text"]::placeholder {
-      color: #6b7280;
-      font-size: 0.85rem;
-    }
+    input::placeholder {
+      color: #6b7280;
+      font-size: 0.85rem;
+    }
 
-    select:invalid {
-      color: #6b7280;
-    }
+    select:invalid { color: #6b7280; }
 
-    .error {
-      margin-top: 4px;
-      font-size: 0.8rem;
-      color: #fecaca;
-      min-height: 1em;
-    }
+    .error {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #fecaca;
+      min-height: 1em;
+    }
 
-    .btn-main,
-    .btn-secondary {
-      width: 100%;
-      margin-top: 8px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 11px 14px;
-      border-radius: 999px;
-      border: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      text-decoration: none;
-    }
+    .btn-main, .btn-secondary {
+      width: 100%;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
-    .btn-main {
-      background: linear-gradient(135deg, #facc15, #eab308);
-      color: #020617;
-      box-shadow: 0 16px 30px rgba(250, 204, 21, 0.35);
-    }
+    .btn-main {
+      background: linear-gradient(135deg, #facc15, #eab308);
+      color: #020617;
+      box-shadow: 0 16px 30px rgba(250, 204, 21, 0.35);
+    }
 
-    .btn-main span.icon,
-    .btn-secondary span.icon {
-      font-size: 1.1rem;
-    }
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-main);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      margin-top: 6px;
+    }
 
-    .btn-main:disabled,
-    .btn-secondary:disabled {
-      opacity: 0.6;
-      cursor: default;
-      box-shadow: none;
-    }
+    .btn-main:disabled, .btn-secondary:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
 
-    .btn-secondary {
-      background: rgba(15, 23, 42, 0.95);
-      color: var(--text-main);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      margin-top: 6px;
-    }
+    .status-box {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.86rem;
+      display: none;
+    }
 
-    .status-box {
-      margin-top: 14px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      font-size: 0.86rem;
-      display: none;
-    }
+    .status-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
 
-    .status-title {
-      font-weight: 600;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
-    }
+    .status-log p {
+      margin: 3px 0;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
 
-    .status-log p {
-      margin: 3px 0;
-      font-size: 0.84rem;
-      color: var(--text-muted);
-    }
+    .status-log p.strong { color: var(--accent); }
 
-    .status-log p.strong {
-      color: var(--accent);
-    }
+    .info-box {
+      margin-top: 10px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: rgba(250, 204, 21, 0.08);
+      border: 1px solid rgba(250, 204, 21, 0.5);
+      font-size: 0.86rem;
+      display: none;
+    }
 
-    .profit-box {
-      margin-top: 10px;
-      padding: 9px 11px;
-      border-radius: 12px;
-      background: rgba(22, 163, 74, 0.12);
-      border: 1px solid rgba(34, 197, 94, 0.8);
-      font-size: 0.86rem;
-      display: none;
-    }
+    .notice {
+      margin-top: 12px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: rgba(34, 197, 94, 0.10);
+      border: 1px solid rgba(34, 197, 94, 0.7);
+      font-size: 0.85rem;
+      color: #dcfce7;
+      display: none;
+    }
 
-    .profit-box strong {
-      color: #bbf7d0;
-    }
-
-    .deposit-warning {
-      margin-top: 12px;
-      padding: 9px 11px;
-      border-radius: 12px;
-      background: rgba(220, 38, 38, 0.18);
-      border: 1px solid rgba(248, 113, 113, 0.9);
-      font-size: 0.85rem;
-      color: #fee2e2;
-      display: none;
-    }
-
-    .deposit-warning strong {
-      color: #fecaca;
-    }
-
-    .link-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 8px;
-      padding: 7px 11px;
-      border-radius: 999px;
-      border: 1px solid rgba(250, 204, 21, 0.7);
-      background: rgba(15, 23, 42, 0.98);
-      color: #fefce8;
-      font-size: 0.82rem;
-      text-decoration: none;
-      gap: 6px;
-    }
-
-    .link-btn span.icon {
-      font-size: 1rem;
-    }
-
-    .link-btn:hover {
-      filter: brightness(1.08);
-      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.6);
-    }
-
-    footer {
-      margin-top: 14px;
-      text-align: center;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
-  </style>
+    footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+  </style>
 </head>
 <body>
-  <div class="page">
-    <section class="card">
-      <div class="card-inner">
-        <div class="badge-geo">
-          <span class="badge-dot"></span>
-          🇵🇭 Philippines · Access Setup
-        </div>
+  <div class="page">
+    <section class="card">
+      <div class="card-inner">
+        <div class="badge-geo">
+          <span class="badge-dot"></span>
+          🇵🇭 Philippines · Access setup
+        </div>
 
-        <h1>
-          <span class="icon">💳</span>
-          Activate Your Deposit for the Program
-        </h1>
+        <h1>
+          <span class="icon">🧩</span>
+          Set up your access
+        </h1>
 
-        <p class="subtitle">
-          Enter your <span class="highlight">1xBet 10-digit Account ID</span>, which must start with
-          <span class="highlight">148</span>, choose your game, and the program will simulate the
-          <span class="highlight">expected profit</span> for your account. Then you can proceed to deposit activation.
-        </p>
+        <p class="subtitle">
+          Enter your <span class="highlight">10-digit Account ID</span>, choose your game,
+          and we’ll run a quick setup check.
+          You’ll receive <span class="highlight">starter tips</span> and <span class="highlight">daily configs</span>
+          inside the program.
+        </p>
 
-        <form id="profit-form">
-          <div class="input-row">
-            <label for="account-id">1xBet Account ID</label>
-            <input
-              type="text"
-              id="account-id"
-              name="account-id"
-              maxlength="10"
-              autocomplete="off"
-              placeholder="Example: 1481234567"
-            />
-          </div>
+        <form id="setup-form">
+          <div class="input-row">
+            <label for="account-id">Account ID</label>
+            <input
+              type="text"
+              id="account-id"
+              name="account-id"
+              maxlength="10"
+              autocomplete="off"
+              placeholder="Example: 1234567890"
+            />
+          </div>
 
-          <div class="input-row">
-            <label for="game">Choose your game</label>
-            <select id="game" name="game" required>
-              <option value="" disabled selected>— Select a game —</option>
-              <option value="aviator">Aviator ✈️</option>
-              <option value="mines">Mines 💣</option>
-              <option value="penalty">Penalty ⚽</option>
-            </select>
-          </div>
+          <div class="input-row">
+            <label for="game">Choose your game</label>
+            <select id="game" name="game" required>
+              <option value="" disabled selected>— Select a game —</option>
+              <option value="aviator">Aviator ✈️</option>
+              <option value="mines">Mines 💣</option>
+              <option value="penalty">Penalty ⚽</option>
+            </select>
+          </div>
 
-          <div id="error" class="error"></div>
+          <div id="error" class="error"></div>
 
-          <button id="simulate-btn" class="btn-main" type="submit">
-            <span class="icon">📊</span>
-            <span>Simulate My Profit</span>
-          </button>
-        </form>
+          <button id="simulate-btn" class="btn-main" type="submit">
+            <span class="icon">✅</span>
+            <span>Run setup check</span>
+          </button>
+        </form>
 
-        <div id="status-box" class="status-box">
-          <div class="status-title">Simulation In Progress</div>
-          <div id="status-log" class="status-log"></div>
-        </div>
+        <div id="status-box" class="status-box">
+          <div class="status-title">Setup in progress</div>
+          <div id="status-log" class="status-log"></div>
+        </div>
 
-        <div id="profit-box" class="profit-box">
-          For <span id="chosen-game-label"></span>,
-          the program shows a potential profit of approximately
-          <strong id="profit-amount"></strong>.
-        </div>
+        <div id="info-box" class="info-box">
+          <strong>What you’ll get inside:</strong><br />
+          • Step-by-step guidance<br />
+          • Daily structured configs<br />
+          • Risk notes & bankroll tips<br />
+          • Community updates
+        </div>
 
-        <button id="start-btn" class="btn-secondary" type="button" style="display:none;">
-          <span class="icon">🚀</span>
-          <span>Start Earning Now</span>
-        </button>
+        <button id="continue-btn" class="btn-secondary" type="button" style="display:none;">
+          <span class="icon">🚀</span>
+          <span>Continue</span>
+        </button>
 
-        <div id="deposit-warning" class="deposit-warning">
-          <strong>⚠️ Cannot activate the program now:</strong><br />
-          The current deposit detected on this account = <strong>0 PHP</strong>.<br />
-          For the program to work correctly, you must make a
-          <strong>minimum deposit of 350 PHP</strong> on this same account.<br />
-          After depositing, return to this page and restart the activation.
-          <br />
-          <a
-            href="https://reffpa.com/L?tag=d_2843259m_97c_&site=2843259&ad=97"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link-btn"
-          >
-            <span class="icon">💳</span>
-            <span>Go to Deposit Page</span>
-          </a>
-        </div>
+        <div id="notice" class="notice">
+          Setup is ready.  
+          Take a screenshot and send it to me in chat.
+        </div>
 
-        <footer>
-          © <span id="year"></span> Predictor Program · Deposit Activation
-        </footer>
-      </div>
-    </section>
-  </div>
+        <footer>
+          © <span id="year"></span> Program Access · Setup
+        </footer>
+      </div>
+    </section>
+  </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-    const form = document.getElementById("profit-form");
-    const input = document.getElementById("account-id");
-    const gameSelect = document.getElementById("game");
-    const errorEl = document.getElementById("error");
-    const simulateBtn = document.getElementById("simulate-btn");
-    const statusBox = document.getElementById("status-box");
-    const statusLog = document.getElementById("status-log");
-    const profitBox = document.getElementById("profit-box");
-    const chosenGameLabel = document.getElementById("chosen-game-label");
-    const profitAmountEl = document.getElementById("profit-amount");
-    const startBtn = document.getElementById("start-btn");
-    const depositWarning = document.getElementById("deposit-warning");
+    const form = document.getElementById("setup-form");
+    const input = document.getElementById("account-id");
+    const gameSelect = document.getElementById("game");
+    const errorEl = document.getElementById("error");
+    const btn = document.getElementById("simulate-btn");
+    const statusBox = document.getElementById("status-box");
+    const statusLog = document.getElementById("status-log");
+    const infoBox = document.getElementById("info-box");
+    const continueBtn = document.getElementById("continue-btn");
+    const notice = document.getElementById("notice");
 
-    const gameLabels = {
-      aviator: "Aviator ✈️",
-      mines: "Mines 💣",
-      penalty: "Penalty ⚽"
-    };
+    function resetUI() {
+      errorEl.textContent = "";
+      statusLog.innerHTML = "";
+      statusBox.style.display = "none";
+      infoBox.style.display = "none";
+      continueBtn.style.display = "none";
+      notice.style.display = "none";
+    }
 
-    // Example potential profit per game (in PHP, adjusted from the French values)
-    const gameProfits = {
-      // These are placeholder values based on the initial numbers: 
-      aviator: 3900, // Equivalent to the higher 95,000 CDF
-      mines: 3500, // Equivalent to the middle 72,000/81,000 CDF
-      penalty: 3700 // Equivalent to the middle 72,000/81,000 CDF
-    };
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      resetUI();
 
-    function formatPHP(amount) {
-      // Using en-US locale for standard number formatting with 'PHP' currency
-      return amount.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " PHP";
-    }
+      const id = (input.value || "").trim().replace(/\s+/g, "");
+      const game = gameSelect.value;
 
-    function resetUI() {
-      errorEl.textContent = "";
-      statusLog.innerHTML = "";
-      statusBox.style.display = "none";
-      profitBox.style.display = "none";
-      startBtn.style.display = "none";
-      depositWarning.style.display = "none";
-    }
+      if (!/^\d+$/.test(id)) {
+        errorEl.textContent = "ID must contain digits only.";
+        return;
+      }
+      if (id.length !== 10) {
+        errorEl.textContent = "Your ID should be exactly 10 digits.";
+        return;
+      }
+      if (!game) {
+        errorEl.textContent = "Please select a game first.";
+        return;
+      }
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      resetUI();
+      btn.disabled = true;
+      input.disabled = true;
+      gameSelect.disabled = true;
 
-      const raw = (input.value || "").trim();
-      const id = raw.replace(/\s+/g, "");
-      const game = gameSelect.value;
+      statusBox.style.display = "block";
 
-      // ID Check: Digits only
-      if (!/^\d+$/.test(id)) {
-        errorEl.textContent = "The ID must contain digits only.";
-        return;
-      }
+      const steps = [
+        "Checking your details…",
+        "Preparing your game setup…",
+        "Loading your starter pack…"
+      ];
 
-      // Length Check
-      if (id.length !== 10) {
-        errorEl.textContent = "The 1xBet ID must be exactly 10 digits long.";
-        return;
-      }
+      let i = 0;
+      const next = () => {
+        if (i < steps.length) {
+          const p = document.createElement("p");
+          p.textContent = steps[i];
+          if (i === steps.length - 1) p.classList.add("strong");
+          statusLog.appendChild(p);
+          i++;
+          setTimeout(next, 850);
+        } else {
+          infoBox.style.display = "block";
+          continueBtn.style.display = "inline-flex";
 
-      // Starts with 148 Check
-      if (!id.startsWith("148")) {
-        errorEl.textContent = "The ID must start with 148 to be recognized by the program.";
-        return;
-      }
+          btn.disabled = false;
+          input.disabled = false;
+          gameSelect.disabled = false;
+        }
+      };
+      next();
+    });
 
-      // Game Selection Check
-      if (!game) {
-        errorEl.textContent = "Please select a game for the simulation first.";
-        return;
-      }
-
-      simulateBtn.disabled = true;
-      input.disabled = true;
-      gameSelect.disabled = true;
-
-      statusBox.style.display = "block";
-      statusLog.innerHTML = "";
-
-      const steps = [
-        "Connecting to the 1xBet server to verify your account...",
-        "Synchronizing your ID with the predictor program database...",
-        "Calculating potential profit for this game and account..."
-      ];
-
-      let index = 0;
-
-      function showNextStep() {
-        if (index < steps.length) {
-          const p = document.createElement("p");
-          p.textContent = steps[index];
-          if (index === steps.length - 1) {
-            p.classList.add("strong");
-          }
-          statusLog.appendChild(p);
-          index++;
-          setTimeout(showNextStep, 900);
-        } else {
-          // Show potential profit
-          const profit = gameProfits[game] || 3500;
-          chosenGameLabel.textContent = gameLabels[game] || "this game";
-          profitAmountEl.textContent = formatPHP(profit);
-          profitBox.style.display = "block";
-          startBtn.style.display = "inline-flex";
-
-          simulateBtn.disabled = false;
-          input.disabled = false;
-          gameSelect.disabled = false;
-        }
-      }
-
-      showNextStep();
-    });
-
-    // "Start Earning Now" button click → deposit warning (350 PHP)
-    startBtn.addEventListener("click", function () {
-      depositWarning.style.display = "block";
-    });
-  </script>
+    continueBtn.addEventListener("click", () => {
+      notice.style.display = "block";
+    });
+  </script>
 </body>
 </html>
