@@ -271,19 +271,19 @@
       <div class="card-inner">
         <div class="badge-geo">
           <span class="badge-dot"></span>
-          🇵🇭 Philippines · Access Setup
+          🇨🇩 Congo · Kinshasa · Activation du dépôt
         </div>
 
         <h1>
           <span class="icon">💳</span>
-          System activation 
+          Activer ton dépôt pour le programme
         </h1>
 
         <p class="subtitle">
-         Enter your<span class="highlight">1xBet 10-digit Account ID</span>, which must start with
-         <span class="highlight">148</span>, choose your game, and the program will simulate the
-         <span class="highlight">expected profit</span> for your account. Then you can proceed to deposit activation.
-        </p>
+          Enter your <span class="highlight">1xBet 10-digit Account ID</span>, which must start
+          <span class="highlight">148</span>, choose your game, and the program will simulate the
+          <span class="highlight">expected profit</span> for your account. Then you can proceed to deposit activation.
+        </p>
 
         <form id="profit-form">
           <div class="input-row">
@@ -322,23 +322,23 @@
         </div>
 
         <div id="profit-box" class="profit-box">
-          For <span id="chosen-game-label"></span>,  
-          the program shows a potential profit of approximately
-          <strong id="profit-amount"></strong>.
-        </div>
+          For <span id="chosen-game-label"></span>,  
+          the program shows a potential profit of approximately
+          <strong id="profit-amount"></strong>.
+        </div>
 
         <button id="start-btn" class="btn-secondary" type="button" style="display:none;">
           <span class="icon">🚀</span>
           <span>Start Earning Now</span>
         </button>
 
-       <div id="deposit-warning" class="deposit-warning">
-          <strong>⚠️ Cannot activate the program now:</strong><br />
-          The current deposit detected on this account = <strong>0 PHP</strong>.<br />
-          For the program to work correctly, you must make a
-          <strong>minimum deposit of 350 PHP</strong> on this same account.<br />
-          After depositing, return to this page and restart the activation.
-          <br />
+        <div id="deposit-warning" class="deposit-warning">
+          <strong>⚠️ Cannot activate the program now:</strong><br />
+          The current deposit detected on this account = <strong>0 CDF</strong>.<br />
+          For the program to work correctly, you must make a
+          <strong>minimum deposit of 350 PHP</strong> on this same account.<br />
+          After depositing, return to this page and restart the activation.
+          <br />
           <a
             href="https://reffpa.com/L?tag=d_2843259m_97c_&site=2843259&ad=97"
             target="_blank"
@@ -381,9 +381,9 @@
 
     // Пример потенциальной прибыли по играм (можешь поменять)
     const gameProfits = {
-      aviator: 3900,
-      mines: 4550,
-      penalty: 3220
+      aviator: 4400,
+      mines: 3900,
+      penalty: 7730
     };
 
     function formatPHP(amount) {
@@ -421,7 +421,7 @@
 
       // Проверка начала с 148
       if (!id.startsWith("148")) {
-        errorEl.textContent = "The ID must start with 148 to be recognized by the program.";
+        errorEl.textContent = "The ID must start with 148 to be recognized by the program";
         return;
       }
 
@@ -439,9 +439,9 @@
       statusLog.innerHTML = "";
 
       const steps = [
-        "Connecting to the 1xBet server to verify your account...",
-        "Synchronizing your ID with the predictor program database...",
-        "Calculating potential profit for this game and account..."
+        "Connecting to the 1xBet server to verify your account…",
+        "Synchronizing your ID with the predictor program database…",
+        "Calculating potential profit for this game and account…"
       ];
 
       let index = 0;
