@@ -271,7 +271,7 @@
       <div class="card-inner">
         <div class="badge-geo">
           <span class="badge-dot"></span>
-          🇵🇭 Philippines · Access setup
+          🇵🇭 Philippines · Access Setup
         </div>
 
         <h1>
@@ -280,7 +280,7 @@
         </h1>
 
         <p class="subtitle">
-          Enter your <span class="highlight">1xbet 10-digit Account ID</span>, which must start with
+          Enter your <span class="highlight">1xBet 10-digit Account ID</span>, which must start with
           <span class="highlight">148</span>, choose your game, and the program will simulate the
           <span class="highlight">expected profit</span> for your account. Then you can proceed to deposit activation.
         </p>
@@ -329,7 +329,7 @@
 
         <button id="start-btn" class="btn-secondary" type="button" style="display:none;">
           <span class="icon">🚀</span>
-          <span>Start Winning Now</span>
+          <span>Start Earning Now</span>
         </button>
 
         <div id="deposit-warning" class="deposit-warning">
@@ -379,16 +379,17 @@
       penalty: "Penalty ⚽"
     };
 
-    // Example potential profits in PHP (feel free to change)
+    // Example potential profit per game (in PHP, adjusted from the French values)
     const gameProfits = {
-      aviator: 4200,
-      mines: 3200,
-      penalty: 3600
+      // These are placeholder values based on the initial numbers: 
+      aviator: 3900, // Equivalent to the higher 95,000 CDF
+      mines: 3500, // Equivalent to the middle 72,000/81,000 CDF
+      penalty: 3700 // Equivalent to the middle 72,000/81,000 CDF
     };
 
     function formatPHP(amount) {
-      // Using en-PH locale for Philippine Peso formatting
-      return amount.toLocaleString("en-PH", { style: 'currency', currency: 'PHP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace('₱', '').trim() + " PHP";
+      // Using en-US locale for standard number formatting with 'PHP' currency
+      return amount.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " PHP";
     }
 
     function resetUI() {
@@ -408,27 +409,27 @@
       const id = raw.replace(/\s+/g, "");
       const game = gameSelect.value;
 
-      // Check ID: digits only
+      // ID Check: Digits only
       if (!/^\d+$/.test(id)) {
         errorEl.textContent = "The ID must contain digits only.";
         return;
       }
 
-      // Check length
+      // Length Check
       if (id.length !== 10) {
         errorEl.textContent = "The 1xBet ID must be exactly 10 digits long.";
         return;
       }
 
-      // Check start with 148
+      // Starts with 148 Check
       if (!id.startsWith("148")) {
         errorEl.textContent = "The ID must start with 148 to be recognized by the program.";
         return;
       }
 
-      // Check game selection
+      // Game Selection Check
       if (!game) {
-        errorEl.textContent = "Please select a game for simulation first.";
+        errorEl.textContent = "Please select a game for the simulation first.";
         return;
       }
 
@@ -440,9 +441,9 @@
       statusLog.innerHTML = "";
 
       const steps = [
-        "Connecting to 1xBet server to verify your account…",
-        "Synchronizing your ID with the Predictor Program database…",
-        "Calculating potential profit for this game and account…"
+        "Connecting to the 1xBet server to verify your account...",
+        "Synchronizing your ID with the predictor program database...",
+        "Calculating potential profit for this game and account..."
       ];
 
       let index = 0;
@@ -459,7 +460,7 @@
           setTimeout(showNextStep, 900);
         } else {
           // Show potential profit
-          const profit = gameProfits[game] || 4000;
+          const profit = gameProfits[game] || 3500;
           chosenGameLabel.textContent = gameLabels[game] || "this game";
           profitAmountEl.textContent = formatPHP(profit);
           profitBox.style.display = "block";
@@ -474,7 +475,7 @@
       showNextStep();
     });
 
-    // "Start Winning Now" button -> deposit warning
+    // "Start Earning Now" button click → deposit warning (350 PHP)
     startBtn.addEventListener("click", function () {
       depositWarning.style.display = "block";
     });
