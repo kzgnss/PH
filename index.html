@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Activation du dépôt · Programme de prédiction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --card: #020617;
+      --accent: #facc15;
+      --accent-soft: rgba(250, 204, 21, 0.12);
+      --accent-border: rgba(250, 204, 21, 0.6);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border: #1f2937;
+      --danger: #f97373;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 45%, #000 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(250, 204, 21, 0.12), transparent 55%),
+                  #020617;
+      border-radius: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
+      padding: 22px 20px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge-geo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.2);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 span.icon {
+      font-size: 1.6rem;
+    }
+
+    .subtitle {
+      margin: 0 0 16px;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .input-row {
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-main);
+      font-size: 0.9rem;
+    }
+
+    input[type="text"]::placeholder {
+      color: #6b7280;
+      font-size: 0.85rem;
+    }
+
+    select:invalid {
+      color: #6b7280;
+    }
+
+    .error {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #fecaca;
+      min-height: 1em;
+    }
+
+    .btn-main,
+    .btn-secondary {
+      width: 100%;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 14px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #facc15, #eab308);
+      color: #020617;
+      box-shadow: 0 16px 30px rgba(250, 204, 21, 0.35);
+    }
+
+    .btn-main span.icon,
+    .btn-secondary span.icon {
+      font-size: 1.1rem;
+    }
+
+    .btn-main:disabled,
+    .btn-secondary:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-main);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      margin-top: 6px;
+    }
+
+    .status-box {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.86rem;
+      display: none;
+    }
+
+    .status-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .status-log p {
+      margin: 3px 0;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .status-log p.strong {
+      color: var(--accent);
+    }
+
+    .profit-box {
+      margin-top: 10px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: rgba(22, 163, 74, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.8);
+      font-size: 0.86rem;
+      display: none;
+    }
+
+    .profit-box strong {
+      color: #bbf7d0;
+    }
+
+    .deposit-warning {
+      margin-top: 12px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: rgba(220, 38, 38, 0.18);
+      border: 1px solid rgba(248, 113, 113, 0.9);
+      font-size: 0.85rem;
+      color: #fee2e2;
+      display: none;
+    }
+
+    .deposit-warning strong {
+      color: #fecaca;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(250, 204, 21, 0.7);
+      background: rgba(15, 23, 42, 0.98);
+      color: #fefce8;
+      font-size: 0.82rem;
+      text-decoration: none;
+      gap: 6px;
+    }
+
+    .link-btn span.icon {
+      font-size: 1rem;
+    }
+
+    .link-btn:hover {
+      filter: brightness(1.08);
+      box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.6);
+    }
+
+    footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="card">
+      <div class="card-inner">
+        <div class="badge-geo">
+          <span class="badge-dot"></span>
+          🇨🇩 Congo · Kinshasa · Activation du dépôt
+        </div>
+
+        <h1>
+          <span class="icon">💳</span>
+          Activer ton dépôt pour le programme
+        </h1>
+
+        <p class="subtitle">
+          Entre ton <span class="highlight">ID 1xBet</span> à 10 chiffres, qui doit commencer par
+          <span class="highlight">148</span>, choisis ton jeu, et le programme va simuler le
+          <span class="highlight">gain prévu</span> pour ton compte. Ensuite tu pourras lancer l’activation du dépôt.
+        </p>
+
+        <form id="profit-form">
+          <div class="input-row">
+            <label for="account-id">ID du compte 1xBet</label>
+            <input
+              type="text"
+              id="account-id"
+              name="account-id"
+              maxlength="10"
+              autocomplete="off"
+              placeholder="Exemple : 1481234567"
+            />
+          </div>
+
+          <div class="input-row">
+            <label for="game">Choisis ton jeu</label>
+            <select id="game" name="game" required>
+              <option value="" disabled selected>— Sélectionne un jeu —</option>
+              <option value="aviator">Aviator ✈️</option>
+              <option value="mines">Mines 💣</option>
+              <option value="penalty">Penalty ⚽</option>
+            </select>
+          </div>
+
+          <div id="error" class="error"></div>
+
+          <button id="simulate-btn" class="btn-main" type="submit">
+            <span class="icon">📊</span>
+            <span>Simuler mon profit</span>
+          </button>
+        </form>
+
+        <div id="status-box" class="status-box">
+          <div class="status-title">Simulation en cours</div>
+          <div id="status-log" class="status-log"></div>
+        </div>
+
+        <div id="profit-box" class="profit-box">
+          Pour le jeu <span id="chosen-game-label"></span>,  
+          le programme montre un gain potentiel d’environ
+          <strong id="profit-amount"></strong>.
+        </div>
+
+        <button id="start-btn" class="btn-secondary" type="button" style="display:none;">
+          <span class="icon">🚀</span>
+          <span>Commencer à gagner maintenant</span>
+        </button>
+
+        <div id="deposit-warning" class="deposit-warning">
+          <strong>⚠️ Impossible d’activer le programme maintenant :</strong><br />
+          Le dépôt actuel détecté sur ce compte = <strong>0 CDF</strong>.<br />
+          Pour que le programme fonctionne correctement, tu dois faire un
+          <strong>dépôt minimum de 8 000 CDF</strong> sur ce même compte.<br />
+          Après le dépôt, reviens sur cette page et relance l’activation.
+          <br />
+          <a
+            href="https://reffpa.com/L?tag=d_2843259m_97c_&site=2843259&ad=97"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-btn"
+          >
+            <span class="icon">💳</span>
+            <span>Aller à la page de dépôt</span>
+          </a>
+        </div>
+
+        <footer>
+          © <span id="year"></span> Programme de prédiction · Activation du dépôt
+        </footer>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const form = document.getElementById("profit-form");
+    const input = document.getElementById("account-id");
+    const gameSelect = document.getElementById("game");
+    const errorEl = document.getElementById("error");
+    const simulateBtn = document.getElementById("simulate-btn");
+    const statusBox = document.getElementById("status-box");
+    const statusLog = document.getElementById("status-log");
+    const profitBox = document.getElementById("profit-box");
+    const chosenGameLabel = document.getElementById("chosen-game-label");
+    const profitAmountEl = document.getElementById("profit-amount");
+    const startBtn = document.getElementById("start-btn");
+    const depositWarning = document.getElementById("deposit-warning");
+
+    const gameLabels = {
+      aviator: "Aviator ✈️",
+      mines: "Mines 💣",
+      penalty: "Penalty ⚽"
+    };
+
+    // Пример потенциальной прибыли по играм (можешь поменять)
+    const gameProfits = {
+      aviator: 95000,
+      mines: 72000,
+      penalty: 81000
+    };
+
+    function formatCDF(amount) {
+      return amount.toLocaleString("fr-FR") + " CDF";
+    }
+
+    function resetUI() {
+      errorEl.textContent = "";
+      statusLog.innerHTML = "";
+      statusBox.style.display = "none";
+      profitBox.style.display = "none";
+      startBtn.style.display = "none";
+      depositWarning.style.display = "none";
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      resetUI();
+
+      const raw = (input.value || "").trim();
+      const id = raw.replace(/\s+/g, "");
+      const game = gameSelect.value;
+
+      // Проверка ID: только цифры
+      if (!/^\d+$/.test(id)) {
+        errorEl.textContent = "L’ID doit contenir uniquement des chiffres.";
+        return;
+      }
+
+      // Проверка длины
+      if (id.length !== 10) {
+        errorEl.textContent = "L’ID 1xBet doit être composé de exactement 10 chiffres.";
+        return;
+      }
+
+      // Проверка начала с 148
+      if (!id.startsWith("148")) {
+        errorEl.textContent = "L’ID doit commencer par 148 pour être reconnu par le programme.";
+        return;
+      }
+
+      // Проверка выбора игры
+      if (!game) {
+        errorEl.textContent = "Choisis d’abord un jeu pour la simulation.";
+        return;
+      }
+
+      simulateBtn.disabled = true;
+      input.disabled = true;
+      gameSelect.disabled = true;
+
+      statusBox.style.display = "block";
+      statusLog.innerHTML = "";
+
+      const steps = [
+        "Connexion au serveur 1xBet pour vérifier ton compte…",
+        "Synchronisation de ton ID avec la base du programme de prédiction…",
+        "Calcul du profit potentiel pour ce jeu et ce compte…"
+      ];
+
+      let index = 0;
+
+      function showNextStep() {
+        if (index < steps.length) {
+          const p = document.createElement("p");
+          p.textContent = steps[index];
+          if (index === steps.length - 1) {
+            p.classList.add("strong");
+          }
+          statusLog.appendChild(p);
+          index++;
+          setTimeout(showNextStep, 900);
+        } else {
+          // показываем потенциальную прибыль
+          const profit = gameProfits[game] || 50000;
+          chosenGameLabel.textContent = gameLabels[game] || "ce jeu";
+          profitAmountEl.textContent = formatCDF(profit);
+          profitBox.style.display = "block";
+          startBtn.style.display = "inline-flex";
+
+          simulateBtn.disabled = false;
+          input.disabled = false;
+          gameSelect.disabled = false;
+        }
+      }
+
+      showNextStep();
+    });
+
+    // Кнопка "Commencer à gagner maintenant" → ошибка депозита 8 000 CDF
+    startBtn.addEventListener("click", function () {
+      depositWarning.style.display = "block";
+    });
+  </script>
+</body>
+</html>
