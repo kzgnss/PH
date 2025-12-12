@@ -178,6 +178,10 @@
       margin-top: 6px;
     }
 
+    /* "Окошки" */
+    .view { display: none; }
+    .view.is-active { display: block; }
+
     .status-box {
       margin-top: 14px;
       padding: 10px 12px;
@@ -185,7 +189,6 @@
       background: rgba(15, 23, 42, 0.96);
       border: 1px solid rgba(148, 163, 184, 0.5);
       font-size: 0.86rem;
-      display: none;
     }
 
     .status-title {
@@ -211,7 +214,6 @@
       background: rgba(22, 163, 74, 0.12);
       border: 1px solid rgba(34, 197, 94, 0.8);
       font-size: 0.86rem;
-      display: none;
     }
 
     .profit-box strong {
@@ -226,7 +228,6 @@
       border: 1px solid rgba(248, 113, 113, 0.9);
       font-size: 0.85rem;
       color: #fee2e2;
-      display: none;
     }
 
     .deposit-warning strong {
@@ -285,69 +286,81 @@
           <span class="highlight">expected profit</span> for your account. Then you can proceed to deposit activation.
         </p>
 
-        <form id="profit-form">
-          <div class="input-row">
-            <label for="account-id">1xBet Account ID</label>
-            <input
-              type="text"
-              id="account-id"
-              name="account-id"
-              maxlength="10"
-              autocomplete="off"
-              placeholder="Exemple : 1481234567"
-            />
+        <!-- VIEW 1: FORM -->
+        <div id="view-form" class="view is-active">
+          <form id="profit-form">
+            <div class="input-row">
+              <label for="account-id">1xBet Account ID</label>
+              <input
+                type="text"
+                id="account-id"
+                name="account-id"
+                maxlength="10"
+                autocomplete="off"
+                placeholder="Exemple : 1481234567"
+              />
+            </div>
+
+            <div class="input-row">
+              <label for="game">Choose your game</label>
+              <select id="game" name="game" required>
+                <option value="" disabled selected>— Select a game —</option>
+                <option value="aviator">Aviator ✈️</option>
+                <option value="mines">Mines 💣</option>
+                <option value="penalty">Penalty ⚽</option>
+              </select>
+            </div>
+
+            <div id="error" class="error"></div>
+
+            <button id="simulate-btn" class="btn-main" type="submit">
+              <span class="icon">📊</span>
+              <span>Simulate My Profit</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- VIEW 2: STATUS -->
+        <div id="view-status" class="view">
+          <div id="status-box" class="status-box">
+            <div class="status-title">Simulation In Progress</div>
+            <div id="status-log" class="status-log"></div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: PROFIT -->
+        <div id="view-profit" class="view">
+          <div id="profit-box" class="profit-box">
+            For <span id="chosen-game-label"></span>,
+            the program shows a potential profit of approximately
+            <strong id="profit-amount"></strong>.
           </div>
 
-          <div class="input-row">
-            <label for="game">Choose your game</label>
-            <select id="game" name="game" required>
-              <option value="" disabled selected>— Select a game —</option>
-              <option value="aviator">Aviator ✈️</option>
-              <option value="mines">Mines 💣</option>
-              <option value="penalty">Penalty ⚽</option>
-            </select>
-          </div>
-
-          <div id="error" class="error"></div>
-
-          <button id="simulate-btn" class="btn-main" type="submit">
-            <span class="icon">📊</span>
-            <span>Simulate My Profit</span>
+          <button id="start-btn" class="btn-secondary" type="button">
+            <span class="icon">🚀</span>
+            <span>Start Earning Now</span>
           </button>
-        </form>
-
-        <div id="status-box" class="status-box">
-          <div class="status-title">Simulation In Progress</div>
-          <div id="status-log" class="status-log"></div>
         </div>
 
-        <div id="profit-box" class="profit-box">
-          For <span id="chosen-game-label"></span>,  
-          the program shows a potential profit of approximately
-          <strong id="profit-amount"></strong>.
-        </div>
-
-        <button id="start-btn" class="btn-secondary" type="button" style="display:none;">
-          <span class="icon">🚀</span>
-          <span>Start Earning Now</span>
-        </button>
-
-        <div id="deposit-warning" class="deposit-warning">
-          <strong>⚠️ Cannot activate the program now:</strong><br />
-          The current deposit detected on this account = <strong>0 PHP</strong>.<br />
-          For the program to work correctly, you must make a
-          <strong>minimum deposit of 350 PHP</strong> on this same account.<br />
-          After depositing, return to this page and restart the activation.
-          <br />
-          <a
-            href="https://1xlite-09321.bar/ru/office/recharge"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link-btn"
-          >
-            <span class="icon">💳</span>
-            <span>Go to Deposit Page</span>
-          </a>
+        <!-- VIEW 4: DEPOSIT -->
+        <div id="view-deposit" class="view">
+          <div id="deposit-warning" class="deposit-warning">
+            <strong>⚠️ Cannot activate the program now:</strong><br />
+            The current deposit detected on this account = <strong>0 PHP</strong>.<br />
+            For the program to work correctly, you must make a
+            <strong>minimum deposit of 350 PHP</strong> on this same account.<br />
+            After depositing, return to this page and restart the activation.
+            <br />
+            <a
+              href="https://1xlite-09321.bar/ru/office/recharge"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link-btn"
+            >
+              <span class="icon">💳</span>
+              <span>Go to Deposit Page</span>
+            </a>
+          </div>
         </div>
 
         <footer>
@@ -365,13 +378,27 @@
     const gameSelect = document.getElementById("game");
     const errorEl = document.getElementById("error");
     const simulateBtn = document.getElementById("simulate-btn");
-    const statusBox = document.getElementById("status-box");
+
     const statusLog = document.getElementById("status-log");
-    const profitBox = document.getElementById("profit-box");
+
     const chosenGameLabel = document.getElementById("chosen-game-label");
     const profitAmountEl = document.getElementById("profit-amount");
+
     const startBtn = document.getElementById("start-btn");
-    const depositWarning = document.getElementById("deposit-warning");
+
+    // Views (окошки)
+    const views = {
+      form: document.getElementById("view-form"),
+      status: document.getElementById("view-status"),
+      profit: document.getElementById("view-profit"),
+      deposit: document.getElementById("view-deposit"),
+    };
+
+    function showOnly(viewKey) {
+      Object.entries(views).forEach(([k, el]) => {
+        el.classList.toggle("is-active", k === viewKey);
+      });
+    }
 
     const gameLabels = {
       aviator: "Aviator ✈️",
@@ -379,7 +406,6 @@
       penalty: "Penalty ⚽"
     };
 
-    // Пример потенциальной прибыли по играм (можешь поменять)
     const gameProfits = {
       aviator: 4400,
       mines: 3900,
@@ -390,53 +416,50 @@
       return amount.toLocaleString("en-US") + " PHP";
     }
 
-    function resetUI() {
+    function resetUIToForm() {
       errorEl.textContent = "";
       statusLog.innerHTML = "";
-      statusBox.style.display = "none";
-      profitBox.style.display = "none";
-      startBtn.style.display = "none";
-      depositWarning.style.display = "none";
+      simulateBtn.disabled = false;
+      input.disabled = false;
+      gameSelect.disabled = false;
+      showOnly("form");
     }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      resetUI();
+
+      errorEl.textContent = "";
+      statusLog.innerHTML = "";
 
       const raw = (input.value || "").trim();
       const id = raw.replace(/\s+/g, "");
       const game = gameSelect.value;
 
-      // Проверка ID: только цифры
+      // digits only
       if (!/^\d+$/.test(id)) {
         errorEl.textContent = "The ID must contain digits only.";
         return;
       }
-
-      // Проверка длины
       if (id.length !== 10) {
         errorEl.textContent = "The 1xBet ID must be exactly 10 digits long.";
         return;
       }
-
-      // Проверка начала с 148
       if (!id.startsWith("148")) {
         errorEl.textContent = "The ID must start with 148 to be recognized by the program";
         return;
       }
-
-      // Проверка выбора игры
       if (!game) {
         errorEl.textContent = "Please select a game for the simulation first.";
         return;
       }
 
+      // lock inputs
       simulateBtn.disabled = true;
       input.disabled = true;
       gameSelect.disabled = true;
 
-      statusBox.style.display = "block";
-      statusLog.innerHTML = "";
+      // show STATUS window only
+      showOnly("status");
 
       const steps = [
         "Connecting to the 1xBet server to verify your account…",
@@ -450,33 +473,39 @@
         if (index < steps.length) {
           const p = document.createElement("p");
           p.textContent = steps[index];
-          if (index === steps.length - 1) {
-            p.classList.add("strong");
-          }
+          if (index === steps.length - 1) p.classList.add("strong");
           statusLog.appendChild(p);
           index++;
           setTimeout(showNextStep, 900);
         } else {
-          // показываем потенциальную прибыль
+          // finish: show PROFIT, and DELETE logs + hide STATUS
           const profit = gameProfits[game] || 3500;
           chosenGameLabel.textContent = gameLabels[game] || "this game";
           profitAmountEl.textContent = formatPHP(profit);
-          profitBox.style.display = "block";
-          startBtn.style.display = "inline-flex";
 
+          // очистка логов после завершения
+          statusLog.innerHTML = "";
+
+          // unlock inputs (если пользователь захочет вернуться и заново активировать)
           simulateBtn.disabled = false;
           input.disabled = false;
           gameSelect.disabled = false;
+
+          // show PROFIT window only
+          showOnly("profit");
         }
       }
 
       showNextStep();
     });
 
-    // Кнопка "Commencer à gagner maintenant" → ошибка депозита 8 000 CDF
+    // Start → показать только депозит, а весь предыдущий интерфейс исчезает
     startBtn.addEventListener("click", function () {
-      depositWarning.style.display = "block";
+      showOnly("deposit");
     });
+
+    // На всякий случай: если хочешь принудительно стартовать с формы при загрузке
+    // resetUIToForm();
   </script>
 </body>
 </html>
