@@ -407,8 +407,8 @@
     };
 
     const gameProfits = {
-      aviator: 4400,
-      mines: 3900,
+      aviator: 13900,
+      mines: 11300,
       penalty: 7730
     };
 
@@ -479,7 +479,7 @@
           setTimeout(showNextStep, 900);
         } else {
           // finish: show PROFIT, and DELETE logs + hide STATUS
-          const profit = gameProfits[game] || 3500;
+          const profit = gameProfits[game] || 5900;
           chosenGameLabel.textContent = gameLabels[game] || "this game";
           profitAmountEl.textContent = formatPHP(profit);
 
