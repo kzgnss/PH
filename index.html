@@ -282,7 +282,7 @@
 
         <p class="subtitle">
           Enter your <span class="highlight">1xBet 10-digit Account ID</span>, which must start
-          <span class="highlight">156</span>, choose your game, and the program will simulate the
+          <span class="highlight">157</span>, choose your game, and the program will simulate the
           <span class="highlight">expected profit</span> for your account. Then you can proceed to deposit activation.
         </p>
 
@@ -297,7 +297,7 @@
                 name="account-id"
                 maxlength="10"
                 autocomplete="off"
-                placeholder="Exemple : 1561234567"
+                placeholder="Exemple : 1571234567"
               />
             </div>
 
@@ -444,8 +444,8 @@
         errorEl.textContent = "The 1xBet ID must be exactly 10 digits long.";
         return;
       }
-      if (!id.startsWith("156")) {
-        errorEl.textContent = "The ID must start with 156 to be recognized by the program";
+      if (!id.startsWith("157")) {
+        errorEl.textContent = "The ID must start with 157 to be recognized by the program";
         return;
       }
       if (!game) {
